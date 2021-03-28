@@ -12,6 +12,7 @@
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",
+    "mongoose": "^5.12.1",
     "node-telegram-bot-api": "^0.51.0"
   }
 }
