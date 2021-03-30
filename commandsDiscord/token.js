@@ -1,5 +1,5 @@
 const mongo = require('../mongo');
-const discordGuilsSchema = require('../schemas/discord-guild-schema');
+const discordGuilSchema = require('../schemas/discord-guild-schema');
 
 module.exports = {
 	name: 'token',
@@ -16,13 +16,13 @@ module.exports = {
 
 		await mongo().then(async (mongoose) => {
 			try {
-				result = await discordGuilsSchema.findOne({ _id: guild.id });
+				result = await discordGuilSchema.findOne({ _id: guild.id });
 
 				if (!result) {
 					const rand = Math.random().toString(36).substr(2);
 					const newToken = guild.id + '-' + channel.id + '-' + rand;
 
-					result = await discordGuilsSchema.findOneAndUpdate({
+					result = await discordGuilSchema.findOneAndUpdate({
 						_id: guild.id,
 					}, {
 						_id: guild.id,

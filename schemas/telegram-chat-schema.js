@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
-const reqNumber = {
-	type: Number,
+const reqString = {
+	type: String,
 	required: true,
 };
 
 const telegramChatSchema = mongoose.Schema({
-	_id: reqNumber,
-	guildIdDisc: reqNumber,
-	channelIdDisc: reqNumber,
-	token: {
-		type: String,
-		required: true,
-	},
+	_id: reqString,
+	guildIdDisc: reqString,
+	channelIdDisc: reqString,
+	token: reqString,
 	titleDisc: String,
 });
 

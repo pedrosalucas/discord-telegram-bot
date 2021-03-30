@@ -6,16 +6,18 @@ const TelegramBot = require('node-telegram-bot-api');
 // Set Telegram Bot
 const TOKEN_TELEGRAM = process.env.TOKEN_TELEGRAM;
 const botTelegram = new TelegramBot(TOKEN_TELEGRAM, { polling: true });
-const setToken = require('./commands/commandsTelegram/setToken');
+const setToken = require('./commandsTelegram/setToken');
+const messageToDiscord = require('./sendMessage/messageToDiscord');
 // Set Discord Bot
 const PREFIX = process.env.PREFIX;
 const TOKEN_DISCORD = process.env.TOKEN_DISCORD;
 const botDiscord = new Discord.Client();
+const messageToTelegram = require('./sendMessage/messageToTelegram');
 
 botDiscord.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+const commandFilesDiscord = fs.readdirSync('./commandsDiscord').filter(file => file.endsWith('.js'));
+for (const file of commandFilesDiscord) {
+	const command = require(`./commandsDiscord/${file}`);
 	botDiscord.commands.set(command.name, command);
 }
 
@@ -36,9 +38,7 @@ botDiscord.on('message', (message) => {
 			message.reply('there was an error trying to execute that command!');
 		}
 	} else if (message.channel.name === 'telegram-group') {
-		// Falta id do chat do Telegram Dinamico
-		const ID_TELEGRAM_CHAT = process.env.ID_TELEGRAM_CHAT;
-		botTelegram.sendMessage(ID_TELEGRAM_CHAT, `Autor: ${message.author.username}#${message.author.discriminator}\n\nContent: ${message.content}`);
+		messageToTelegram.execute(botTelegram, message);
 	}
 });
 
@@ -64,18 +64,10 @@ botTelegram.on('message', (msg) => {
 				botTelegram.sendMessage(chatId, 'Esse comando ainda não tenho 😔\nDigite "%help" para ter uma lista dos comandos aceitos.');
 				break;
 			}
-
 		} else {
-			// Falta id do chat do Discord Dinamico
-			const ID_DISCORD_CHAT = process.env.ID_DISCORD_CHAT;
-			const channelDiscordTest = botDiscord.channels.cache.get(ID_DISCORD_CHAT);
-			channelDiscordTest.send('-----------------------------------');
-			channelDiscordTest.send(`Autor: ${msg.from.first_name} ${msg.from.last_name}\n\nContent: ${msg.text}`);
-			channelDiscordTest.send('-----------------------------------');
+			messageToDiscord.execute(botDiscord, msg, msg.chat.id);
 		}
 	} catch (error) {
 		console.error(error);
 	}
-
-	// botTelegram.sendMessage(chatId, `You sent "${msg.text}".`);
 });

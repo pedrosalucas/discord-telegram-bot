@@ -1,5 +1,6 @@
-const mongo = require('../../mongo');
-const telegramChatSchema = require('../../schemas/telegram-chat-schema');
+const mongo = require('../mongo');
+const discordGuildSchema = require('../schemas/discord-guild-schema');
+const telegramChatSchema = require('../schemas/telegram-chat-schema');
 
 module.exports = {
 	name: 'setToken',
@@ -11,20 +12,28 @@ module.exports = {
 		}
 		const guildId = token.split('-')[0];
 		const channelIdD = token.split('-')[1];
-		console.log('Token: ' + token);
 
 		let result;
 
 		await mongo().then(async (mongoose) => {
 			try {
 				result = await telegramChatSchema.findOneAndUpdate({
-					_id: chatId,
+					_id: `${chatId}`,
 				}, {
-					_id: chatId,
-					guildIdDisc: guildId,
-					channelIdDisc: channelIdD,
-					token: '',
+					_id: `${chatId}`,
+					guildIdDisc: `${guildId}`,
+					channelIdDisc: `${channelIdD}`,
+					token: token,
 					titleDisc: 'Title',
+				}, {
+					upsert: true,
+				});
+
+				await discordGuildSchema.findOneAndUpdate({
+					_id: `${guildId}`,
+				}, {
+					channelIdTele: `${chatId}`,
+					titleTele: msg.chat.title,
 				}, {
 					upsert: true,
 				});
