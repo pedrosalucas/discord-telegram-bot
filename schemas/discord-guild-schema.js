@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
-const reqNumber = {
-	type: Number,
+const reqString = {
+	type: String,
 	required: true,
 };
 
 const discordGuilsSchema = mongoose.Schema({
-	_id: reqNumber,
-	channelIdDisc: reqNumber,
-	token: {
-		type: String,
-		required: true,
-	},
-	channelIdTele: Number,
+	_id: reqString,
+	channelIdDisc: reqString,
+	token: reqString,
+	channelIdTele: String,
 	titleTele: String,
 });
 
