@@ -12,7 +12,7 @@ module.exports = {
 			try {
 				result = await discordChatSchema.findOne({ _id: `${message.guild.id}` });
 				if (result) {
-					const idTelegramChat = result.channelIdTele;
+					const idTelegramChat = result.chatIdTele;
 					botTelegram.sendMessage(idTelegramChat, `Autor: ${message.author.username}#${message.author.discriminator}\n\nContent: ${message.content}`);
 				}
 			} catch (err) {
