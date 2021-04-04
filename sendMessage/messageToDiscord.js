@@ -1,5 +1,5 @@
 const mongo = require('../mongo');
-const telegramChatSchema = require('../schemas/telegram-chat-schema');
+const discordGuildSchema = require('../schemas/discord-guild-schema');
 
 module.exports = {
 	name: 'messageToDiscord',
@@ -10,7 +10,7 @@ module.exports = {
 
 		await mongo().then(async (mongoose) => {
 			try {
-				result = await telegramChatSchema.findOne({ _id: `${chatId}` });
+				result = await discordGuildSchema.findOne({ chatIdTele: `${chatId}` });
 				if (result) {
 					const idDiscordChannel = result.channelIdDisc;
 					const channelDiscord = botDiscord.channels.cache.get(idDiscordChannel);

@@ -5,12 +5,13 @@ const reqString = {
 	required: true,
 };
 
-const discordGuilsSchema = mongoose.Schema({
+const discordGuildsSchema = mongoose.Schema({
 	_id: reqString,
 	channelIdDisc: reqString,
 	token: reqString,
-	channelIdTele: String,
+	chatIdTele: String,
 	titleTele: String,
+	titleDisc: reqString,
 });
 
-module.exports = mongoose.model('discord-channels', discordGuilsSchema);
+module.exports = mongoose.model('discord-channels', discordGuildsSchema);

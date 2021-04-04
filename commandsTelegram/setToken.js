@@ -1,6 +1,5 @@
 const mongo = require('../mongo');
 const discordGuildSchema = require('../schemas/discord-guild-schema');
-const telegramChatSchema = require('../schemas/telegram-chat-schema');
 
 module.exports = {
 	name: 'setToken',
@@ -11,32 +10,20 @@ module.exports = {
 			return;
 		}
 		const guildId = token.split('-')[0];
-		const channelIdD = token.split('-')[1];
-
-		let result;
 
 		await mongo().then(async (mongoose) => {
 			try {
-				result = await telegramChatSchema.findOneAndUpdate({
-					_id: `${chatId}`,
-				}, {
-					_id: `${chatId}`,
-					guildIdDisc: `${guildId}`,
-					channelIdDisc: `${channelIdD}`,
-					token: token,
-					titleDisc: 'Title',
-				}, {
-					upsert: true,
-				});
-
-				await discordGuildSchema.findOneAndUpdate({
+				const result = await discordGuildSchema.findOneAndUpdate({
 					_id: `${guildId}`,
 				}, {
-					channelIdTele: `${chatId}`,
+					chatIdTele: `${chatId}`,
 					titleTele: msg.chat.title,
 				}, {
 					upsert: true,
 				});
+				if (result) {
+					botTelegram.sendMessage(chatId, `You sync with ${result.titleDisc} Discord Guild.`);
+				}
 			} catch (err) {
 				console.error(err);
 				botTelegram.sendMessage(chatId, 'Sorry, the process failed.');
@@ -45,9 +32,5 @@ module.exports = {
 			}
 		});
 
-		if (result) {
-			console.log(result);
-			botTelegram.sendMessage(chatId, `You sync with ${result.titleDisc} Discord Guild.`);
-		}
 	},
 };
