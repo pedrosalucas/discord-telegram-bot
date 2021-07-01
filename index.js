@@ -46,7 +46,7 @@ botDiscord.on('message', (message) => {
 botTelegram.on('message', (msg) => {
 
 	try {
-		if (msg.text.startsWith(PREFIX)) {
+		if (msg.text && msg.text.startsWith(PREFIX)) {
 			const chatId = msg.chat.id;
 			const args = msg.text.slice(PREFIX.length).trim().split(/ +/);
 			const command = args.shift().toLowerCase();
@@ -65,7 +65,7 @@ botTelegram.on('message', (msg) => {
 				break;
 			}
 		} else {
-			messageToDiscord.execute(botDiscord, msg, msg.chat.id);
+			messageToDiscord.execute(botDiscord, botTelegram, msg, msg.chat.id);
 		}
 	} catch (error) {
 		console.error(error);
