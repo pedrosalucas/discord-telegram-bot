@@ -54,7 +54,7 @@ module.exports = {
 							const nameAudioFile = `Voice_Message_${msg.from.first_name}_${msg.from.last_name}`;
 							channelDiscord.send(`Autor: ${msg.from.first_name} ${msg.from.last_name}`);
 							try {
-								const fileInfo = await botTelegram.getFile(msg.audio.file_id);
+								const fileInfo = await botTelegram.getFile(msg.voice.file_id);
 								const contentVoice = `https://api.telegram.org/file/bot${TOKEN_TELEGRAM}/${fileInfo.file_path}`;
 								await channelDiscord.send('Voice: ', { files: [{ attachment: `${contentVoice}`, name: `${nameAudioFile}.mp3` }] });
 							} catch (err) {
