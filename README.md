@@ -1,12 +1,14 @@
-Sena lindo :) !!!
+🚧 In developing 🚧
 
-# Bot Sem nome, ainda... 
-Um bot que integra o chat do Telegram com o chat do Discord.
-<br/><br/>
+# Bot without a name, yet... 
+A bot that integrates Telegram chat with Discord chat.
+<br/>
+<br/>
 
 
 
 ## Libraries used
-| Name                 | Latest release           |
+| Name                 | Version used             |
 | -------------------- | ------------------------ |
-| [`Discord.js`](/packages/discord.js)   | [![npm](https://img.shields.io/npm/v/discord.js.svg?style=flat-square)](https://www.npmjs.com/package/discord.js)         |
+| [`Discord.js`](https://www.npmjs.com/package/discord.js)   | 12.5.1 |
+| [`Node.js Telegram Bot API`](https://www.npmjs.com/package/node-telegram-bot-api)   | 0.53.0 |
