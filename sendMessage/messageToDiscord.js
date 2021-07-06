@@ -62,9 +62,10 @@ module.exports = {
 								channelDiscord.send('Voice Message Error: Audio size too long!');
 							}
 						} else if (msg.sticker) {
-							const contentMessage = msg.sticker.emoji;
+							const fileInfo = await botTelegram.getFile(msg.sticker.thumb.file_id);
+							const contentMessage = `https://api.telegram.org/file/bot${TOKEN_TELEGRAM}/${fileInfo.file_path}`;
 							channelDiscord.send(`Autor: ${msg.from.first_name} ${msg.from.last_name}`);
-							channelDiscord.send(`Content: ${contentMessage}`);
+							channelDiscord.send('Content: ', { files: [`${contentMessage}`] });
 						} else if (msg.location) {
 							channelDiscord.send(`Autor: ${msg.from.first_name} ${msg.from.last_name}`);
 							if (msg.venue) {
@@ -74,7 +75,6 @@ module.exports = {
 								channelDiscord.send(`Current Location: https://maps.google.com/?q=${msg.location.latitude},${msg.location.longitude}`);
 							}
 						}
-						console.log(msg);
 					} else {
 						// Normal Message
 						channelDiscord.send(`Autor: ${msg.from.first_name} ${msg.from.last_name}`);
